@@ -1,5 +1,5 @@
 import { FaCheckCircle, FaTrash } from 'react-icons/fa'
-import { useRecoilState, useRecoilValue } from 'recoil'
+import { useRecoilState } from 'recoil'
 
 import { taskListValue } from '../atoms/atoms'
 import { ListItemProps, TaskListProps } from '../types/types'

@@ -1,13 +1,9 @@
 import { atom } from 'recoil'
+
 import { TaskListProps } from '../types/types'
 
 export const taskListValue = atom<TaskListProps[]>({
   key: 'taskListKey',
-  default: [],
-})
-
-export const filteredTaskListValue = atom<TaskListProps[]>({
-  key: 'filteredTaskListKey',
   default: [],
 })
 
