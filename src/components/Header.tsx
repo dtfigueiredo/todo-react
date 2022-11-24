@@ -20,7 +20,7 @@ export const Header = () => {
       return
     } else {
       setIsInputValid(true)
-      setTaskList([...taskList, { task: inputTask, isCompleted: false }])
+      setTaskList([{ task: inputTask, isCompleted: false }, ...taskList])
       setInputTask('')
     }
   }

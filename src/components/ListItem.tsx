@@ -1,13 +1,28 @@
+import { useEffect, useState } from 'react'
 import { FaCheckCircle, FaTrash } from 'react-icons/fa'
 import { useRecoilState } from 'recoil'
 
 import { taskListValue } from '../atoms/atoms'
 import { ListItemProps, TaskListProps } from '../types/types'
 
-export const ListItem = ({ description }: ListItemProps) => {
+export const ListItem = ({ description, isCompleted }: ListItemProps) => {
   const [taskList, setTaskList] = useRecoilState<TaskListProps[]>(taskListValue)
+  const [isTaskCompleted, setIsTaskCompleted] = useState<boolean>(isCompleted)
 
-  const handleIsCompleted = (e: any) => {}
+  const handleIsCompleted = (e: any) => {
+    setIsTaskCompleted(!isTaskCompleted)
+    const taskDescription =
+      e.target.parentElement.parentElement.parentElement.previousSibling.innerText
+
+    const newTaskList = taskList.map((task) => {
+      if (task.task === taskDescription) {
+        return { task: task.task, isCompleted: isTaskCompleted }
+      }
+      return task
+    })
+
+    setTaskList(newTaskList)
+  }
 
   const handleRemove = (e: any) => {
     const description = e.target.parentElement.parentElement.parentElement.previousSibling.innerText
@@ -20,7 +35,7 @@ export const ListItem = ({ description }: ListItemProps) => {
 
   return (
     <li className='flex justify-between items-center py-1 px-4 rounded-lg border border-white'>
-      <p className={`text-white`}>{description}</p>
+      <p className={`text-white ${isTaskCompleted ? 'line-through' : ''}`}>{description}</p>
 
       <div className='flex justify-between items-center gap-4'>
         <button
