@@ -7,6 +7,11 @@ export const taskListValue = atom<TaskListProps[]>({
   default: [],
 })
 
+export const taskDescValue = atom<string>({
+  key: 'taskDescKey',
+  default: '',
+})
+
 export const inputTaskValue = atom<string>({
   key: 'inputTaskKey',
   default: '',

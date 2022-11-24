@@ -1,19 +1,22 @@
 import { useEffect, useState } from 'react'
 import { FaCheckCircle, FaTrash } from 'react-icons/fa'
-import { useRecoilState } from 'recoil'
+import { useRecoilState, useRecoilValue } from 'recoil'
 
-import { taskListValue } from '../atoms/atoms'
+import { taskDescValue, taskListValue } from '../atoms/atoms'
 import { ListItemProps, TaskListProps } from '../types/types'
 
 export const ListItem = ({ description, isCompleted }: ListItemProps) => {
   const [taskList, setTaskList] = useRecoilState<TaskListProps[]>(taskListValue)
+  const [taskDescription, setTaskDescription] = useRecoilState(taskDescValue)
   const [isTaskCompleted, setIsTaskCompleted] = useState<boolean>(isCompleted)
 
   const handleIsCompleted = (e: any) => {
-    setIsTaskCompleted(!isTaskCompleted)
-    const taskDescription =
-      e.target.parentElement.parentElement.parentElement.previousSibling.innerText
+    isTaskCompleted === false ? setIsTaskCompleted(true) : setIsTaskCompleted(false)
+    const taskDesc = e.target.parentElement.parentElement.parentElement.previousSibling.innerText
+    setTaskDescription(taskDesc)
+  }
 
+  useEffect(() => {
     const newTaskList = taskList.map((task) => {
       if (task.task === taskDescription) {
         return { task: task.task, isCompleted: isTaskCompleted }
@@ -22,7 +25,7 @@ export const ListItem = ({ description, isCompleted }: ListItemProps) => {
     })
 
     setTaskList(newTaskList)
-  }
+  }, [isTaskCompleted])
 
   const handleRemove = (e: any) => {
     const description = e.target.parentElement.parentElement.parentElement.previousSibling.innerText
